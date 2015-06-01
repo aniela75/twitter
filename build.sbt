@@ -1,8 +1,8 @@
 lazy val root = project.in(file(".")).enablePlugins(PlayJava)
 
-name := "just-play-java"
+name := "ntw"
 
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
 scalaVersion := "2.10.4"
 
@@ -21,6 +21,3 @@ resolvers ++= Seq(
     "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
     "Sonatype OSS Snasphots" at "http://oss.sonatype.org/content/repositories/snapshots"
 )
-
-
-lazy val root = (project in file(".")).enablePlugins(play.PlayJava)

@@ -1,4 +1,4 @@
-package models;
+package models.utilisateur;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,14 +9,14 @@ import java.util.Date;
 import models.outils.Log;
 
 
-		//Step 1: Use interfaces from java.sql package
+		
 	/**
 	 * Permet de se connecter � la BDD
 	 * @author Mohamed
 	 *
 	 */
 	public class DAO {
-		    //static reference to itself
+		    
 		    private static DAO instance = new DAO();
 		    private Connection connection = null;
 		    private static final String URL = "jdbc:mysql://localhost/twitter";
@@ -25,7 +25,7 @@ import models.outils.Log;
 		    private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 		    private static Log log = null;
 		    
-		    //private constructor
+		    
 		    public DAO(){
 		        try {
 		            
@@ -51,7 +51,7 @@ import models.outils.Log;
 		        } catch (SQLException e) {
 		        	
 		        	getLog().envoyerlog(0, "DAO", "Echec connexion base de donn�es" );
-		           // System.out.println("ERROR: Unable to Connect to Database.");
+		            
 		        }
 		        return this.connection;
 		    }  
@@ -60,7 +60,7 @@ import models.outils.Log;
 		        return instance.createConnection();
 		    }
 
-			//C:\Program Files (x86)\MySQL\MySQL Connector J\mysql-connector-java-5.1.30-bin.jar
+	
 		    
 
 		}   
