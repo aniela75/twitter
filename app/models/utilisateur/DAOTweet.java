@@ -5,7 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.sun.jmx.snmp.Timestamp;
+
+import models.Tweet;
+
 public class DAOTweet extends DAO {
+	
 	public static void main(String[] args) {
 		
 		
@@ -183,4 +188,56 @@ public static int ajouternbretweet(int idtweet){
 	}
 }
 //recuperer la liste des derniers 15 tweet des amis 
+
+
+
+/**
+ * permet de recuperer un tweet à partir d'un id tweet
+ * @param idtweet
+ * @return un tweet ou null
+ */
+public static Tweet tweetbyid(int idtweet)
+{
+	try{
+			
+			
+			Connection maConnexion =DAO.getConnection();
+			PreparedStatement  st = maConnexion.prepareStatement("SELECT * FROM T_TWEET WHERE Tweet_Id =?;");  
+			st.setInt(1, idtweet);
+	    
+			ResultSet rs = st.executeQuery();
+			
+	   
+	    if(rs.next())
+	    {
+	    	 int id=rs.getInt(1);
+	    	 int idcompte=rs.getInt(2);
+	   
+	    	 java.sql.Timestamp datetweet=rs.getTimestamp(3);
+	    	 int nbretweet=rs.getInt(4);
+	    	 String strtweet=rs.getString(5);
+	    	
+	    	 Tweet leTweet= new Tweet(id,idcompte,datetweet,nbretweet,strtweet);
+	    	 maConnexion.close();
+	    	 return leTweet;           	
+	    }
+	    else
+	    {
+	    	maConnexion.close();
+	    	
+	    	return null;
+	    }
+	   
+		}
+		catch(SQLException e)
+		{
+			
+			return null;
+			
+		}
+		
+		
+	
+	
+}
 }

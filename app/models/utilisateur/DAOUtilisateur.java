@@ -2,9 +2,15 @@ package models.utilisateur;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Compte;
+import models.Tweet;
 
 	/**
 	 *
@@ -680,14 +686,102 @@ import java.sql.SQLException;
 					DAO.getLog().envoyerlog(2, "DAOUtilisateur", "Ajouterfollowing:Echec insertion enregistrement followinglogin,comptelogin= "+followinglogin+comptelogin  );
 					return -1;
 				}
+			
 			}
 			
 			
+		/**
+		 * renvoi un compte � partir d'un id	
+		 * @param idcompte
+		 * @return
+		 */
+		public static Compte comptebyid(int idcompte)	
+		{
+			
+			try{
+				
+				
+		        Connection maConnexion =DAO.getConnection();
+		        PreparedStatement  st = maConnexion.prepareStatement("SELECT Compte_Id,Compte_Login,Compte_Description,Compte_Nb_Tweets,Compte_Nb_Followers,Compte_Nb_Following,Compte_Mention,Compte_Image FROM t_compte WHERE Compte_Id =?;");  
+		        st.setInt(1, idcompte);
+		        ResultSet rs = st.executeQuery();
+		       
+		        if(rs.next())
+		        {
+		        	 int id=rs.getInt(1);
+		        	 String login=rs.getString(2);
+		        	 String description=rs.getString(3);
+		        	 int nbtweet=rs.getInt(4);
+		        	 int nbfollowers=rs.getInt(5);
+		        	 int nbfollowing=rs.getInt(6);
+		        	 String mention=rs.getString(7);
+		        	 String urlimage=rs.getString(8);
+		        	 Compte c=new Compte(id,login,description,nbtweet,nbfollowers,nbfollowing,mention,urlimage);
+		        	 maConnexion.close();
+		        	 return c;           	 
+		        }
+		        else
+		        {
+		        	maConnexion.close();
+		        	
+		        	return null;
+		        }
+		       
+				}
+				catch(SQLException e)
+				{
+					
+					return null;
+				}
 			
 			
+		}
+			
+		/**
+		 * permet de recuperer la liste des tweet des personne que l'on suit	
+		 * @param idcompte du compte 
+		 * @return la liste des tweet// null
+		 */
+		public static List<Tweet> listedesderniertwitte(int idcompte)
+		{	
 			
 			
+			List<Tweet> maliste= new ArrayList<Tweet>();
+			try{
+				
+				
+		        Connection maConnexion =DAO.getConnection();
+		        PreparedStatement  st = maConnexion.prepareStatement("SELECT Tweet_Id FROM T_Tweet WHERE compte_id = (Select Followers_id from T_Followers where compte_id=?);");  
+		        st.setInt(1, idcompte);
+		      
+		        ResultSet rs = st.executeQuery();
+		        
+		       
+		        while(rs.next())
+		        {
+		        	
+		        	
+		        	 int id=rs.getInt(1);
+		        	 Tweet monTweet= DAOTweet.tweetbyid(id);
+		        	 maliste.add(monTweet);
+		        	
+		        	 
+		        	        	 
+		        }
+		        maConnexion.close();
+		        return maliste;
+				}
+				catch(SQLException e)
+				{
+					
+					
+					
+				}
+				return maliste;
+
 			
+		
+		}
 		
 			
 			

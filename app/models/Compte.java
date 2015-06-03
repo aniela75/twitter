@@ -29,4 +29,18 @@ public class Compte {
 				
 		
 	}
+	public Compte(int id,String login,String description,int nbtweet,int nbfollowers,int nbfollowing,String mention,String urlimage)
+	{
+		this.Compte_Id=id;
+		this.Compte_Login=login;
+		this.Compte_Description=description;
+		this.Compte_Nb_Tweets=nbtweet;
+		this.Compte_Nb_Followers=nbfollowers;
+		this.Compte_Nb_Following=nbfollowing;
+		this.Compte_Mention=mention;
+		this.Compte_Image=urlimage;
+		
+				
+		
+	}
 }

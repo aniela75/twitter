@@ -4,8 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import models.Tweet;
 
+/**
+ * Permet de manipuler les données lié au hashtag
+ * @author Mohamed
+ *
+ */
 public class DAOHashtag extends DAO {
 	
 	public static void main(String[] args) {
@@ -69,14 +77,14 @@ public class DAOHashtag extends DAO {
 			
 	}
 	/**
-	 * permet de retourner un tableau de int contenant 20 tweet pour un hashtag 
-	 * @param hashtag
-	 * @return une liste de idtweet//null si ne marche pas 
+	 * permet de retourner la liste contenant tous les  tweet pour un hashtag 
+	 * @param hashtag exemple "Rollandgarros"
+	 * @return une liste de tweet//null si ne marche pas 
 	 */
-	public static int[] recupIdtweet(String hashtag){
-		int i=0;
-		int [] tableauidtwwet=null;
-		tableauidtwwet = new int [30];
+	public static List<Tweet> recuptweet(String hashtag){
+		
+		List<Tweet> maliste =new ArrayList<Tweet>();
+		
 		try{
 			
 			DAO.getLog().envoyerlog(10, "DAOHashtag", "recupIdtweet:Tentative recuperation listye idtwwet  bdd avec hashtag = "+hashtag );
@@ -92,14 +100,16 @@ public class DAOHashtag extends DAO {
 	        while(rs.next())
 	        {
 	        	 int id=rs.getInt(1);
-	        	 System.out.println(i +"  "+ id);
-	        	 tableauidtwwet[i]=id;
-	        	 i++;
+
+	        	 Tweet untweet= DAOTweet.tweetbyid(id);
+	        	 maliste.add(untweet);
+	        	 
+	        	 
 	        	 DAO.getLog().envoyerlog(10,"DAOHashtag", "recupIdtweet: recuperation listye idtwwet  bdd avec hashtag = "+hashtag );
 	        	        	 
 	        }
 	        maConnexion.close();
-	       
+	        return maliste;
 			}
 			catch(SQLException e)
 			{
@@ -107,7 +117,7 @@ public class DAOHashtag extends DAO {
 				
 				
 			}
-		return tableauidtwwet;
+		return maliste;
 	}
 		
 
