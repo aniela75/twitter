@@ -23,16 +23,20 @@ public class LoginTest {
 
 	 @Test
 	    public void getHashString() throws AppException {
-	        int id = DAOUtilisateur.verifUtilisateur("", "");
+	        int id = DAOUtilisateur.verifUtilisateur("toto", "mdp");
 	        Assert.assertNotNull(id);
 
-	        boolean matches = Hash.checkPassword("fooTest", id);
+	        boolean matches = checkId(2, id);
 
-	        Assert.assertTrue("Password does not match but should match", matches);
+	        Assert.assertTrue("Id does not match but should match", matches);
 
-	        boolean badLogin = Hash.checkPassword("badPassword", password);
+	        int badId = DAOUtilisateur.verifUtilisateur("toto", "badPassword");
+	        boolean badLogin = checkId(-1, badId);
 
-	        Assert.assertFalse("Password matches but should not match", badPassword);
+	        Assert.assertFalse("Password matches but should not match", badLogin);
 	    }
+	 
+	 public boolean checkId(int rId, int tId){
+		 return rId==tId;
     }
 }
